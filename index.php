@@ -1,13 +1,11 @@
 <?php 
-    $nomeCurso1 = "Full Stack";
-    $descricaoCurso1 = "Curso de desenvolvimento web";
-    $valorCurso1 = 1000.99;
-    $imagemCurso1 = "full.jpeg";
-
-    $nomeCurso2 = "Marketing Digital";
-    $descricaoCurso2 = "Curso de Marketing";
-    $valorCurso2 = 1000.98;
-    $imagemCurso2 = "marketing.jpg";
+    
+    $cursos = [
+        "Full Stack" => ["Curso de desenvolvimento web", 1000.99, "full.jpeg", "fullstack"],
+        "Marketing" => ["Curso de Marketing", 1000.98, "marketing.jpg", "marketing"],
+        "UX" => ["Curso de User Experience", 9000.98, "ux.png", "ux"],
+        "Mobile Android" => ["Curso de apps", 1000.97, "android.jpg", "android"]
+    ]; 
 
     $usuario = [
         "Nome" => "Jaime",
@@ -66,28 +64,63 @@
 
     <div class="container">
         <div class="row">
+        <?php foreach ($cursos as $nomeCurso => $infoCurso) : ?>
             <div class="col-sm-6 col-md-6">
                 <div class="thumbnail">
-                <img src="<?php echo "assets/img/$imagemCurso1"; ?>" alt="<?php echo "Foto curso $nomeCurso1"; ?>">
+                <img src="<?php echo "assets/img/$infoCurso[2]"; ?>" alt="<?php echo "Foto curso $nomeCurso"; ?>">
                 <div class="caption">
-                    <h3><?php echo $nomeCurso1; ?></h3>
-                    <p><?php echo $descricaoCurso1; ?></p>
-                    <p><?php echo $valorCurso1; ?></p>
-                    <a href="#" class="btn btn-primary" role="button">Comprar</a>
+                    <h3><?php echo $nomeCurso; ?></h3>
+                    <p><?php echo $infoCurso[0]; ?></p>
+                    <p><?php echo $infoCurso[1]; ?></p>
+                    <a href="#" class="btn btn-info" data-toggle="modal" data-target="<?php echo"#$infoCurso[3]"; ?>" role="button">Comprar</a>
                 </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-6">
-                <div class="thumbnail">
-                <img src="<?php echo "assets/img/$imagemCurso2"; ?>" alt="<?php echo "Foto curso $nomeCurso2"; ?>">
-                <div class="caption">
-                    <h3><?php echo $nomeCurso2; ?></h3>
-                    <p><?php echo $descricaoCurso2; ?></p>
-                    <p><?php echo $valorCurso2; ?></p>
-                    <a href="#" class="btn btn-primary" role="button">Comprar</a>
+        <?php endforeach; ?>
+        <?php foreach ($cursos as $nomeCurso => $infoCurso) : ?>
+        <div class="modal fade" id="<?php echo $infoCurso[3]; ?>" role="dialog">
+    <div class="modal-dialog">
+    
+     
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Prencha os seus dados</h4>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="input-group col-md-5">
+                    <label for="Nome Completo"> Nome Completo</label>
+                    <input for="nome Completo" type="text" class="form-control">
                 </div>
+                <div class="input-group col-md-5">
+                    <label for="CPF"> CPF</label>
+                    <input for="CPF" type="number" class="form-control">
                 </div>
-            </div>
+                <div class="input-group col-md-5">
+                    <label for="Numero do Cartao"> Numero do Cartao</label>
+                    <input for="Numero do Cartao" type="number" class="form-control">
+                </div>
+                <div class="input-group col-md-5">
+                    <label for="Validade Cartao"> Validade Cartao</label>
+                    <input for="Validade Cartao" type="month" class="form-control">
+                </div>
+                <div class="input-group col-md-5">
+                    <label for="CVV"> CVV</label>
+                    <input for="CVV" type="number" class="form-control">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+<?php endforeach; ?>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
