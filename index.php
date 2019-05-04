@@ -1,37 +1,39 @@
 <?php
     include "inc/head.php";
     include "inc/header.php";
+    include "req/database.php";
+
+    try {
+        $query = $conexao->query('SELECT * FROM cursos'); //consulta banco de dados
+
+        $cursos = $query->fetchAll(PDO::FETCH_ASSOC); //traz todos as linhas em array associativo
         
-    $cursos = [
-        "Full Stack" => ["Curso de desenvolvimento web", 1000.99, "full.jpeg", "fullstack"],
-        "Marketing" => ["Curso de Marketing", 1000.98, "marketing.jpg", "marketing"],
-        "UX" => ["Curso de User Experience", 9000.98, "ux.png", "ux"],
-        "Mobile Android" => ["Curso de apps", 1000.97, "android.jpg", "android"]
-    ]; 
-
-
+        $conexao = null;
+    } catch( PDOExcepetion $Exception ){
+        echo $Exception->getMessage();
+    }
+        
 ?>
-
 
 
 
     <div class="container">
         <div class="row">
-        <?php foreach ($cursos as $nomeCurso => $infoCurso) : ?>
+        <?php foreach ($cursos as $key => $infoCurso) : ?>
             <div class="col-sm-6 col-md-6">
                 <div class="thumbnail">
-                <img src="<?php echo "assets/img/$infoCurso[2]"; ?>" alt="<?php echo "Foto curso $nomeCurso"; ?>">
+                <img src="assets/img/produtos/<?php echo $infoCurso['image']; ?>" alt="Foto curso<?php echo $infoCurso['nome']; ?>">
                 <div class="caption">
-                    <h3><?php echo $nomeCurso; ?></h3>
-                    <p><?php echo $infoCurso[0]; ?></p>
-                    <p><?php echo $infoCurso[1]; ?></p>
-                    <a href="#" class="btn btn-info" data-toggle="modal" data-target="<?php echo"#$infoCurso[3]"; ?>" role="button">Comprar</a>
+                    <h3><?php echo $infoCurso['nome']; ?></h3>   
+                    <p><?php echo $infoCurso['descricao']; ?></p>
+                    <p>R$ <?php echo $infoCurso['preco']; ?></p>
+                    <a href="#" class="btn btn-info" data-toggle="modal" data-target="#<?php echo $infoCurso['tag']; ?>" role="button">Comprar</a>
                 </div>
                 </div>
             </div>
         <?php endforeach; ?>
-        <?php foreach ($cursos as $nomeCurso => $infoCurso) : ?>
-        <div class="modal fade" id="<?php echo $infoCurso[3]; ?>" role="dialog">
+        <?php foreach ($cursos as $key => $infoCurso) : ?>
+        <div class="modal fade" id="<?php echo $infoCurso['tag']; ?>" role="dialog">
     <div class="modal-dialog">
     
      
@@ -41,11 +43,11 @@
           <h4 class="modal-title">Prencha os seus dados</h4>
         </div>
         <div class="modal-body">
-            <h4>Curso de: <?php echo $nomeCurso; ?></h4>
-            <h4>Preço: R$ <?php echo $infoCurso[1]; ?></h4>
+            <h4>Curso de: <?php echo $infoCurso['nome']; ?></h4>
+            <h4>Preço: R$ <?php echo $infoCurso['preco']; ?></h4>
             <form action="validarCompra.php" method="post">
-                <input type="hidden" name="nomeCurso" value="<?php echo $nomeCurso; ?>">
-                <input type="hidden" name="precoCurso" value="<?php echo $infoCurso[1]; ?>">
+                <input type="hidden" name="nomeCurso" value="<?php echo $infoCurso['nome']; ?>">
+                <input type="hidden" name="precoCurso" value="<?php echo $infoCurso['preco']; ?>">
                 <div class="input-group col-md-5">
                     <label for="nomeCompleto"> Nome Completo</label>
                     <input for="nomeCompleto" name="nomeCompleto" type="text" class="form-control">
